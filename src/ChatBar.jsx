@@ -8,7 +8,7 @@ class ChatBar extends Component {
           className="chatbar-username"
           placeholder="Your Name (Optional)"
         />
-        <input
+        <input onKeyPress={this.props.hitEnter}
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"
         />
