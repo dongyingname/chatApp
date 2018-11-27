@@ -4,7 +4,9 @@ import MessageList from "./MessageList.jsx";
 class App extends Component {
   constructor() {
     super();
+    
     this.state = {
+      
       currentUser: { name: "bob" },
       messages: [
         {
@@ -47,9 +49,10 @@ class App extends Component {
         }
       ]
     };
+    this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
   }
-
+  
   submitMessage = event => {
     if (event.key == "Enter") {
       const messagesSize = this.state.messages.length;
@@ -65,22 +68,16 @@ class App extends Component {
       this.setState({ messages: messages });
     }
   };
-  // componentDidMount() {
-  //   console.log("componentDidMount <App />");
-  //   setTimeout(() => {
-  //     console.log("Simulating incoming message");
-  //     // Add a new message to the list of messages in the data store
-  //     const newMessage = {
-  //       id: 8,
-  //       username: "Michelle",
-  //       content: "Hello there!"
-  //     };
-  //     const messages = this.state.messages.concat(newMessage);
-  //     // Update the state of the app component.
-  //     // Calling setState will trigger a call to render() in App and all child components.
-  //     this.setState({ messages: messages });
-  //   }, 3000);
-  // }
+
+  
+
+  componentDidMount() {
+    
+    this.webSocket.onopen =  (event)=> {
+      this.webSocket.send("Connected to React");
+      console.log("Connected to server!!"); 
+    };
+  }
 
   render() {
     return (
