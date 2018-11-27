@@ -66,6 +66,9 @@ class App extends Component {
       };
       const messages = this.state.messages.concat(newMessage);
       this.setState({ messages: messages });
+
+      this.webSocket.send(JSON.stringify(newMessage.username +" says "+ newMessage.content ));
+
     }
   };
 
@@ -91,6 +94,7 @@ class App extends Component {
         <ChatBar
           currentUser={this.state.currentUser}
           hitEnter={this.submitMessage}
+
         />
       </div>
     );
