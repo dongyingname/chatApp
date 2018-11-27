@@ -5,6 +5,7 @@ class MessageList extends Component {
   constructor() {
     super();
     this.state = {
+      currentUser: {name:"bob"},
       messages: [
         {
             type: "incomingMessage",
