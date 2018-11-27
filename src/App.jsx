@@ -41,6 +41,7 @@ class App extends Component {
           username: "nomnom"
         },
         {
+          id: 7,
           type: "incomingNotification",
           content: "Anonymous2 changed their name to NotFunny"
         }
