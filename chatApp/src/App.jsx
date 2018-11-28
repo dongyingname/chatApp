@@ -9,8 +9,7 @@ class App extends Component {
       userColor: "red",
       currentUser: { name: "BOB!!!!!" },
       numberOfClients: 0,
-      messages: [
-      ]
+      messages: []
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
@@ -21,12 +20,21 @@ class App extends Component {
     if (event.key === "Enter") {
       const newId = uuidv1();
       const newContent = event.target.value;
+      let imageURL = "";
+      const arr = newContent.split(" ");
+      for (let i of arr) {
+        if (i.match(/[^/]+(jpg|png|gif)$/)) {
+          imageURL = i;
+        }
+      }
+
       const newMessage = {
         nameColor: this.state.userColor,
         type: "incomingMessage",
         id: newId,
         username: this.state.currentUser.name,
-        content: newContent
+        content: newContent,
+        imageURL: imageURL
       };
       this.webSocket.send(JSON.stringify(newMessage));
     }
@@ -62,10 +70,8 @@ class App extends Component {
       if (parsedData.connectCounter) {
         const numberOfClients = parsedData.connectCounter;
         this.setState({ numberOfClients: numberOfClients });
-
       } else if (parsedData.length === 6) {
         this.setState({ userColor: "#" + parsedData });
-
       } else {
         switch (parsedData.type) {
           case "incomingNotification":

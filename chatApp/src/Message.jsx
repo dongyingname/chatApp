@@ -6,6 +6,7 @@ class Message extends Component {
     const username = this.props.message.username;
     const notification = this.props.message.notification;
     const nameColor =this.props.message.nameColor;
+    const imageURL = this.props.message.imageURL;
     const styles = {
       color:nameColor
     };
@@ -21,6 +22,7 @@ class Message extends Component {
           <span className="message-content">{content}</span>
         </div>
         <div className="message system">{notification}</div>
+        <img src={imageURL} />
       </li>
     );
   }
