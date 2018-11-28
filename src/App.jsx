@@ -6,15 +6,17 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      userColor:"red",
       currentUser: { name: "BOB!!!!!" },
       numberOfClients: 0,
       messages: [
-        {
-          type: "",
-          newUsername: "",
-          id: "",
-          notification: ""
-        }
+        // { 
+        //   nameColor:"",
+        //   type: "",
+        //   newUsername: "",
+        //   id: "",
+        //   notification: ""
+        // }
       ]
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
@@ -27,6 +29,7 @@ class App extends Component {
       const newId = uuidv1();
       const newContent = event.target.value;
       const newMessage = {
+        nameColor:this.state.userColor,
         type: "incomingMessage",
         id: newId,
         username: this.state.currentUser.name,
@@ -41,8 +44,8 @@ class App extends Component {
       const newId = uuidv1();
       const newUsername = event.target.value;
       const currentUser = this.state.currentUser.name;
-      console.log("newUserName", newUsername);
       const newUserChange = {
+        nameColor:this.state.userColor,
         type: "incomingNotification",
         newUsername: newUsername,
         id: newId,
@@ -60,7 +63,7 @@ class App extends Component {
     this.webSocket.onopen = () => {
       console.log("Connected to server!!");
     };
-    this.webSocket.onmessage = event => {
+    this.webSocket.onmessage =  event => {
       const parsedData = JSON.parse(event.data);
 
       if (parsedData.connectCounter) {
@@ -95,7 +98,7 @@ class App extends Component {
             {this.state.numberOfClients} User(s) Online
           </h3>
         </nav>
-        <MessageList messages={this.state.messages} />
+        <MessageList messages={this.state.messages}/>
         <ChatBar
           currentUser={this.state.currentUser.name}
           newMessage={this.submitMessage}
