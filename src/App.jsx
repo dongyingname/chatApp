@@ -8,14 +8,7 @@ class App extends Component {
 
     this.state = {
       currentUser: { name: "bob" },
-      messages: [
-        {
-          type: "incomingMessage",
-          content:
-            "I won't be impressed with technology until I can download food.",
-          username: "Anonymous1"
-        }
-      ]
+      messages: []
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
@@ -23,39 +16,29 @@ class App extends Component {
 
   submitMessage = event => {
     if (event.key == "Enter") {
-      // const messagesSize = this.state.messages.length;
       const newId = uuidv1();
       const newContent = event.target.value;
-      // console.log(newContent);
       const newMessage = {
         id: newId,
         username: "Ying Dong",
         content: newContent
       };
-      const messages = this.state.messages.concat(newMessage);
-      this.setState({ messages: messages });
 
-      this.webSocket.send(
-        JSON.stringify(newMessage.username + " says " + newMessage.content)
-      );
+      this.webSocket.send(JSON.stringify(newMessage));
     }
   };
 
   componentDidMount() {
-    this.webSocket.onopen = (event) => {
-      this.webSocket.send("Connected to React");
+    this.webSocket.onopen = () => {
       console.log("Connected to server!!");
     };
-    this.webSocket.onmessage = (event) => {
-      const broadcastMessage = event.data;
-      console.log("broadcast",broadcastMessage);
-    }
-    
+    this.webSocket.onmessage = event => {
+      const newMessage = JSON.parse(event.data);
+      console.log(newMessage);
+      const messages = this.state.messages.concat(newMessage);
+      this.setState({ messages: messages });
+    };
   }
-
-  // componentDidUpdate(){
-
-  // }
 
   render() {
     return (
