@@ -13,7 +13,7 @@ class Message extends Component {
           </span>
         </div>
         <div className="message system">
-          Anonymous1 changed their name to 
+          {/* Anonymous1 changed their name to  */}
         </div>
      </li>
     );

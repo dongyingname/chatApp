@@ -8,7 +8,14 @@ class App extends Component {
 
     this.state = {
       currentUser: { name: "bob" },
-      messages: []
+      messages: [
+        {
+          type: "incomingMessage",
+          content:
+            "I won't be impressed with technology until I can download food.",
+          username: "Anonymous1"
+        }
+      ]
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
@@ -19,7 +26,7 @@ class App extends Component {
       // const messagesSize = this.state.messages.length;
       const newId = uuidv1();
       const newContent = event.target.value;
-      console.log(newContent);
+      // console.log(newContent);
       const newMessage = {
         id: newId,
         username: "Ying Dong",
@@ -35,11 +42,20 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.webSocket.onopen = event => {
+    this.webSocket.onopen = (event) => {
       this.webSocket.send("Connected to React");
       console.log("Connected to server!!");
     };
+    this.webSocket.onmessage = (event) => {
+      const broadcastMessage = event.data;
+      console.log("broadcast",broadcastMessage);
+    }
+    
   }
+
+  // componentDidUpdate(){
+
+  // }
 
   render() {
     return (
