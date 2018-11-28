@@ -48,7 +48,10 @@ class App extends Component {
         id: newId,
         notification: `${currentUser} changed their name to ${newUsername}`
       };
-      console.log(newUserChange);
+      this.setState({
+        currentUser: { name: newUsername }
+      });
+
       this.webSocket.send(JSON.stringify(newUserChange));
     }
   };
@@ -67,10 +70,8 @@ class App extends Component {
 
       switch (parsedData.type) {
         case "incomingNotification":
-          const newUser = parsedData.newUsername;
           const notifications = this.state.messages.concat(parsedData);
           this.setState({
-            currentUser: { name: newUser },
             messages: notifications
           });
           break;
@@ -91,7 +92,7 @@ class App extends Component {
             Chatty
           </a>
           <h3 className="number-clients">
-            {this.state.numberOfClients} Users Online
+            {this.state.numberOfClients} User(s) Online
           </h3>
         </nav>
         <MessageList messages={this.state.messages} />
