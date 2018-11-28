@@ -6,8 +6,15 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      currentUser: { name: "bob" },
-      messages: []
+      currentUser: { name: ""},
+      numberOfClients: 0,
+      messages: [{
+        type: "",
+        newUsername: "",
+        id: "",
+        notification:"" }
+      ],
+
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
@@ -44,13 +51,18 @@ class App extends Component {
       this.webSocket.send(JSON.stringify(newUserChange));
     }
   };
+
   componentDidMount() {
     this.webSocket.onopen = () => {
       console.log("Connected to server!!");
     };
     this.webSocket.onmessage = event => {
       const parsedData = JSON.parse(event.data);
-      console.log("data from websocket", parsedData.type);
+      console.log("data from websocket", parsedData);
+      if (parsedData.connectCounter){
+        const numberOfClients = parsedData.connectCounter;
+        this.setState({numberOfClients:numberOfClients})
+      }
       switch (parsedData.type) {
         case "incomingNotification":
           const newUser = parsedData.newUsername;
@@ -78,6 +90,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">
             Chatty
           </a>
+          <h3 className="number-clients">{this.state.numberOfClients} Users Online</h3>
         </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar
