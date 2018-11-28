@@ -5,14 +5,13 @@ import uuidv1 from "uuid/v1";
 class App extends Component {
   constructor() {
     super();
-
     this.state = {
       currentUser: { name: "bob" },
       messages: []
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
-    this.changeUser=this.changeUser.bind(this);
+    this.changeUser = this.changeUser.bind(this);
   }
 
   submitMessage = event => {
@@ -20,6 +19,7 @@ class App extends Component {
       const newId = uuidv1();
       const newContent = event.target.value;
       const newMessage = {
+        type: "incomingMessage",
         id: newId,
         username: this.state.currentUser.name,
         content: newContent
@@ -30,9 +30,18 @@ class App extends Component {
 
   changeUser = event => {
     if (event.key === "Enter") {
+      const newId = uuidv1();
       const newUsername = event.target.value;
-      console.log(newUsername);
-      this.webSocket.send(JSON.stringify(newUsername));
+      const currentUser = this.state.currentUser.name;
+      console.log("newUserName", newUsername);
+      const newUserChange = {
+        type: "incomingNotification",
+        newUsername: newUsername,
+        id: newId,
+        notification: `${currentUser} changed their name to ${newUsername}`
+      };
+      console.log(newUserChange);
+      this.webSocket.send(JSON.stringify(newUserChange));
     }
   };
   componentDidMount() {
@@ -40,16 +49,24 @@ class App extends Component {
       console.log("Connected to server!!");
     };
     this.webSocket.onmessage = event => {
-      // if(typeof event.data.username != "undefined")
       const parsedData = JSON.parse(event.data);
-      if (parsedData.username != undefined) {
-        const newMessage = parsedData;
-        // console.log(newMessage);
-        const messages = this.state.messages.concat(newMessage);
-        this.setState({ messages: messages });
-      } else{
-        const newUser = parsedData;
-        this.setState({currentUser:{name:newUser}});
+      console.log("data from websocket", parsedData.type);
+      switch (parsedData.type) {
+        case "incomingNotification":
+          const newUser = parsedData.newUsername;
+          const newNotification = parsedData;
+          const notifications = this.state.messages.concat(newNotification);
+          this.setState({
+            currentUser: { name: newUser },
+            messages: notifications
+          });
+          break;
+        case "incomingMessage":
+          const newMessage = parsedData;
+          console.log(newMessage);
+          const messages = this.state.messages.concat(newMessage);
+          this.setState({ messages: messages });
+          break;
       }
     };
   }

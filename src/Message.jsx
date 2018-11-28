@@ -4,6 +4,7 @@ class Message extends Component {
     // const type=this.props.message.type;
     const content=this.props.message.content; 
     const username=this.props.message.username; 
+    const notification = this.props.message.notification;
     return (
         <li>
         <div className="message">
@@ -13,7 +14,7 @@ class Message extends Component {
           </span>
         </div>
         <div className="message system">
-          {/* Anonymous1 changed their name to  */}
+          {notification}
         </div>
      </li>
     );
