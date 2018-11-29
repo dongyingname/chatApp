@@ -1,3 +1,5 @@
+//MessageList: renders a list of <Message /> components
+
 import React, { Component } from "react";
 import Message from "./Message.jsx";
 

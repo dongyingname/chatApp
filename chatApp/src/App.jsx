@@ -1,3 +1,6 @@
+//App.jsx: App component. Main componet of the project and controls client side data and 
+//dynamic.
+
 //Collect all the tools and children components
 //Use uuid version 1 to generate a timestamp ID.
 import React, { Component } from "react";

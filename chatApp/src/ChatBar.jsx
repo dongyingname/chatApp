@@ -1,3 +1,5 @@
+//ChatBar for user to submit messages and change username
+
 import React, { Component } from "react";
 
 class ChatBar extends Component {
