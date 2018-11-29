@@ -1,3 +1,5 @@
+//Collect all the tools and children components
+//Use uuid version 1 to generate a timestamp ID.
 import React, { Component } from "react";
 import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
@@ -91,15 +93,13 @@ class App extends Component {
   };
 
 //componentDidMount: Its content is executed after the first rendering is excuted.
+
 //Add "onopen" handler to WebSocket server. Once the connection between the client and the ws server
 //is open the client sends a message to notify the server that they are connected.
 //Add onmessage listener to the ws server. 
 
 //Handles the ws server response based on the content of the data.
-//  Getting a new connection or losing a existing connection will send connectCounter to update the 
-//  numberOfClients state.
-//  A new client will be sent a userId and userColor which will update its respective states.
-//  If the data contains the key "type" the client will append the new data to the messages state.
+
 
   componentDidMount() {
     this.webSocket.onopen = () => {
@@ -107,9 +107,15 @@ class App extends Component {
     };
     this.webSocket.onmessage = event => {
       const parsedData = JSON.parse(event.data);
+
+      //  Getting a new connection or losing a existing connection will send connectCounter to update the 
+      //  numberOfClients state.
       if (parsedData.connectCounter) {
+        
         const numberOfClients = parsedData.connectCounter;
         this.setState({ numberOfClients: numberOfClients });
+        
+        //  A new client will be sent a userId and userColor which will update its respective states.
       } else if (parsedData.userId && parsedData.userColor) {
         const userId = parsedData.userId;
         const userColor = parsedData.userColor;
@@ -117,15 +123,18 @@ class App extends Component {
           currentUser: { name: `Annoymous User # ${userId}` },
           userColor: userColor
         });
+
+      //  If the data contains the key "type" the client will append the new data to the messages state.  
       } else {
         switch (parsedData.type) {
+          //Username changes
           case "incomingNotification":
             const notifications = this.state.messages.concat(parsedData);
             this.setState({
               messages: notifications
             });
             break;
-
+          //A new message is "Entered"
           case "incomingMessage":
             const messages = this.state.messages.concat(parsedData);
             this.setState({ messages: messages });
