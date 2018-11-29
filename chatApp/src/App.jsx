@@ -3,6 +3,8 @@ import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
 import uuidv1 from "uuid/v1";
 
+//ChatttPage function takes an object, which contains all the props of <ChattyPage />
+//and returns HTML elements. It pass the props down to its children.
 const ChattyPage = props => {
   return (
     <div>
@@ -22,6 +24,9 @@ const ChattyPage = props => {
     </div>
   );
 };
+
+//Main component of this project.
+//Client side data are in this.state. The websocket connection is established in the constructor.
 class App extends Component {
   constructor() {
     super();
@@ -36,6 +41,9 @@ class App extends Component {
     this.changeUser = this.changeUser.bind(this);
   }
 
+  //submitMessage: A method that adds "keydown" handler to ChatBar component's message bar;
+  //  When "Enter" is hit in the message bar the method will send the newMessage object to the 
+  //  WebSocket server.
   submitMessage = event => {
     if (event.key === "Enter") {
       const newKey = uuidv1();
@@ -59,6 +67,9 @@ class App extends Component {
     }
   };
 
+//changeUser: A method that adds "keydown" handler to the ChatBar component's username bar;
+//  When "Enter" is hit in the username bar the method will send the newUserChange object to the 
+//  WebSocket server, and at the same time setStatecurrentUser: { name: newUsername }.
   changeUser = event => {
     if (event.key === "Enter") {
       const newId = uuidv1();
@@ -78,6 +89,17 @@ class App extends Component {
       this.webSocket.send(JSON.stringify(newUserChange));
     }
   };
+
+//componentDidMount: Its content is executed after the first rendering is excuted.
+//Add "onopen" handler to WebSocket server. Once the connection between the client and the ws server
+//is open the client sends a message to notify the server that they are connected.
+//Add onmessage listener to the ws server. 
+
+//Handles the ws server response based on the content of the data.
+//  Getting a new connection or losing a existing connection will send connectCounter to update the 
+//  numberOfClients state.
+//  A new client will be sent a userId and userColor which will update its respective states.
+//  If the data contains the key "type" the client will append the new data to the messages state.
 
   componentDidMount() {
     this.webSocket.onopen = () => {
@@ -113,6 +135,9 @@ class App extends Component {
     };
   }
 
+  //this.state.numberOfClients:  A number. The number of live connections between clients and the
+  //ws server on the the header of the page as "this.state.numberOfClients User(s) Online"
+  //this.state.messages: An array. The contents in the state messages.
   render() {
     return (
       <ChattyPage
