@@ -39,8 +39,8 @@ wss.on("connection", ws => {
   connectCounter++;
 
   // const userColor = JSON.stringify(getRandomColor());
-  const newConnectionStates =  JSON.stringify({
-    userColor:getRandomColor(),
+  const newConnectionStates = JSON.stringify({
+    userColor: getRandomColor(),
     userId
   });
   ws.send(newConnectionStates);
