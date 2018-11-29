@@ -2,6 +2,23 @@ import React, { Component } from "react";
 import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
 import uuidv1 from "uuid/v1";
+
+const ChattyPage = props => {
+  return (
+    <div>
+      <nav className="navbar">
+        <a href="/" className="navbar-brand">
+          Chatty
+        </a>
+        <h3 className="number-clients">
+          {props.numberOfClients} User(s) Online
+        </h3>
+      </nav>
+      <MessageList messages={props.messages} />
+      <ChatBar submitMessage={props.submitMessage} changeUser={props.changeUser} />
+    </div>
+  );
+};
 class App extends Component {
   constructor() {
     super();
@@ -9,7 +26,7 @@ class App extends Component {
       userColor: "",
       currentUser: { name: "" },
       numberOfClients: 0,
-      messages: []
+      messages: [1]
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
@@ -17,6 +34,7 @@ class App extends Component {
   }
 
   submitMessage = event => {
+    console.log("trying to submit Message")
     if (event.key === "Enter") {
       const newId = uuidv1();
       const newContent = event.target.value;
@@ -27,7 +45,6 @@ class App extends Component {
           imageURL = i;
         }
       }
-
       const newMessage = {
         nameColor: this.state.userColor,
         type: "incomingMessage",
@@ -58,7 +75,7 @@ class App extends Component {
 
       this.webSocket.send(JSON.stringify(newUserChange));
     }
-  };
+  };submitMessage
 
   componentDidMount() {
     this.webSocket.onopen = () => {
@@ -98,21 +115,12 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <nav className="navbar">
-          <a href="/" className="navbar-brand">
-            Chatty
-          </a>
-          <h3 className="number-clients">
-            {this.state.numberOfClients} User(s) Online
-          </h3>
-        </nav>
-        <MessageList messages={this.state.messages} />
-        <ChatBar
-          newMessage={this.submitMessage}
-          changeUser={this.changeUser}
-        />
-      </div>
+      <ChattyPage
+        numberOfClients={this.state.numberOfClients}
+        messages={this.state.messages}
+        submitMessage={this.submitMessage}
+        changeUser={this.changeUser}
+      />
     );
   }
 }
