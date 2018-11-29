@@ -8,6 +8,7 @@ import uuidv1 from "uuid/v1";
 //ChatttPage function takes an object, which contains all the props, represented by props,
 // of <ChattyPage /> and returns HTML elements. It pass the props down to its children.
 const ChattyPage = props => {
+
   return (
     <div>
       <nav className="navbar">
@@ -30,6 +31,7 @@ const ChattyPage = props => {
 //Main component of this project.
 //Client side data are in this.state. The websocket connection is established in the constructor.
 class App extends Component {
+  
   constructor() {
     super();
     this.state = {
@@ -38,6 +40,7 @@ class App extends Component {
       numberOfClients: 0,
       messages: []
     };
+
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
     this.changeUser = this.changeUser.bind(this);
@@ -47,6 +50,7 @@ class App extends Component {
   //  When "Enter" is hit in the message bar the method will send the newMessage object to the 
   //  WebSocket server.
   submitMessage = event => {
+
     if (event.key === "Enter") {
       const newKey = uuidv1();
       const newContent = event.target.value;
@@ -57,6 +61,7 @@ class App extends Component {
           imageURL = i;
         }
       }
+
       const newMessage = {
         nameColor: this.state.userColor,
         type: "incomingMessage",
@@ -65,6 +70,7 @@ class App extends Component {
         content: newContent,
         imageURL: imageURL
       };
+
       this.webSocket.send(JSON.stringify(newMessage));
     }
   };
@@ -73,6 +79,7 @@ class App extends Component {
 //  When "Enter" is hit in the username bar the method will send the newUserChange object to the 
 //  WebSocket server, and at the same time setStatecurrentUser: { name: newUsername }.
   changeUser = event => {
+
     if (event.key === "Enter") {
       const newId = uuidv1();
       const newUsername = event.target.value;
@@ -84,10 +91,10 @@ class App extends Component {
         id: newId,
         notification: `${currentUser} changed their name to ${newUsername}`
       };
+      
       this.setState({
         currentUser: { name: newUsername }
       });
-
       this.webSocket.send(JSON.stringify(newUserChange));
     }
   };
@@ -102,6 +109,7 @@ class App extends Component {
 
 
   componentDidMount() {
+
     this.webSocket.onopen = () => {
       console.log("Connected to server!!");
     };
@@ -111,7 +119,6 @@ class App extends Component {
       //  Getting a new connection or losing a existing connection will send connectCounter to update the 
       //  numberOfClients state.
       if (parsedData.connectCounter) {
-        
         const numberOfClients = parsedData.connectCounter;
         this.setState({ numberOfClients: numberOfClients });
         
