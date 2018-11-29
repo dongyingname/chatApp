@@ -5,8 +5,8 @@ import ChatBar from "./ChatBar.jsx";
 import MessageList from "./MessageList.jsx";
 import uuidv1 from "uuid/v1";
 
-//ChatttPage function takes an object, which contains all the props of <ChattyPage />
-//and returns HTML elements. It pass the props down to its children.
+//ChatttPage function takes an object, which contains all the props, represented by props,
+// of <ChattyPage /> and returns HTML elements. It pass the props down to its children.
 const ChattyPage = props => {
   return (
     <div>
