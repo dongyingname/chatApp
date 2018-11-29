@@ -26,7 +26,7 @@ class App extends Component {
       userColor: "",
       currentUser: { name: "" },
       numberOfClients: 0,
-      messages: [1]
+      messages: []
     };
     this.webSocket = new WebSocket("ws://localhost:3001/");
     this.submitMessage = this.submitMessage.bind(this);
@@ -36,7 +36,7 @@ class App extends Component {
   submitMessage = event => {
     console.log("trying to submit Message")
     if (event.key === "Enter") {
-      const newId = uuidv1();
+      const newKey = uuidv1();
       const newContent = event.target.value;
       let imageURL = "";
       const arr = newContent.split(" ");
@@ -48,7 +48,7 @@ class App extends Component {
       const newMessage = {
         nameColor: this.state.userColor,
         type: "incomingMessage",
-        id: newId,
+        key: newKey,
         username: this.state.currentUser.name,
         content: newContent,
         imageURL: imageURL
@@ -83,6 +83,7 @@ class App extends Component {
     };
     this.webSocket.onmessage = event => {
       const parsedData = JSON.parse(event.data);
+      console.log(parsedData);
 
       if (parsedData.connectCounter) {
         const numberOfClients = parsedData.connectCounter;
@@ -91,6 +92,7 @@ class App extends Component {
         // console.log("Ready to get newConnectionStates!!!");
         const userId = parsedData.userId;
         const userColor = parsedData.userColor;
+        console.log("userColor",userColor);
         this.setState({
           currentUser: { name: `Annoymous User # ${userId}` },
           userColor: userColor

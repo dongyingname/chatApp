@@ -9,7 +9,7 @@ class Message extends Component {
       imageURL
     } = this.props.message;
     const styles = {
-      color: nameColor
+      color: "#" + nameColor
     };
     return (
       <li>
