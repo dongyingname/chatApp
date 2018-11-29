@@ -1,5 +1,3 @@
-// server.js
-
 const express = require("express");
 const WebSocket = require("ws");
 
@@ -27,11 +25,13 @@ let userId = 0;
 //Length:6.
 //Doens't contain "#", which would cause an issue when being parsed.
 function getRandomColor() {
+
   const letters = "0123456789ABCDEF";
   let color = "";
   for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
+
   return color;
 }
 
@@ -39,6 +39,7 @@ function getRandomColor() {
 //when a client connects they are assigned a socket, represented by
 //the ws parameter in the callback.
 wss.on("connection", ws => {
+  
   console.log(" A client has connected");
   userId++;
   connectCounter++;
@@ -54,16 +55,19 @@ wss.on("connection", ws => {
   //Everytime a new client is connected all the clients are broadcast 
   //a new numberOfClients
   wss.clients.forEach(function each(client) {
+    
     if (client.readyState === WebSocket.OPEN) {
       const numberOfClients = JSON.stringify({
         connectCounter: connectCounter
       });
+
       client.send(numberOfClients);
     }
   });
   
   //For every data is sent to the server it is broadcast to all the clients.
   ws.on("message", function incoming(data) {
+
     wss.clients.forEach(function each(client) {
       client.send(data);
     });
@@ -72,9 +76,11 @@ wss.on("connection", ws => {
   //Set up a callback for when a client closes the socket.
   //On losing a connect the number of clients reduces and is broadcast to all clients. 
   ws.on("close", () => {
+
     console.log("A client has disconnected");
-    connectCounter--;
     console.log("Current Number of Connections:", connectCounter);
+    connectCounter--;
+    
     wss.clients.forEach(function each(client) {
       const numberOfClients = JSON.stringify({
         connectCounter: connectCounter
