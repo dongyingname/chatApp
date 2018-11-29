@@ -15,7 +15,10 @@ const ChattyPage = props => {
         </h3>
       </nav>
       <MessageList messages={props.messages} />
-      <ChatBar submitMessage={props.submitMessage} changeUser={props.changeUser} />
+      <ChatBar
+        submitMessage={props.submitMessage}
+        changeUser={props.changeUser}
+      />
     </div>
   );
 };
@@ -34,7 +37,6 @@ class App extends Component {
   }
 
   submitMessage = event => {
-    console.log("trying to submit Message")
     if (event.key === "Enter") {
       const newKey = uuidv1();
       const newContent = event.target.value;
@@ -75,7 +77,7 @@ class App extends Component {
 
       this.webSocket.send(JSON.stringify(newUserChange));
     }
-  };submitMessage
+  };
 
   componentDidMount() {
     this.webSocket.onopen = () => {
@@ -83,16 +85,12 @@ class App extends Component {
     };
     this.webSocket.onmessage = event => {
       const parsedData = JSON.parse(event.data);
-      console.log(parsedData);
-
       if (parsedData.connectCounter) {
         const numberOfClients = parsedData.connectCounter;
         this.setState({ numberOfClients: numberOfClients });
       } else if (parsedData.userId && parsedData.userColor) {
-        // console.log("Ready to get newConnectionStates!!!");
         const userId = parsedData.userId;
         const userColor = parsedData.userColor;
-        console.log("userColor",userColor);
         this.setState({
           currentUser: { name: `Annoymous User # ${userId}` },
           userColor: userColor

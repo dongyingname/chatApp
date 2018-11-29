@@ -56,8 +56,6 @@ wss.on("connection", ws => {
 
   console.log("Current Number of Connections:", connectCounter);
   ws.on("message", function incoming(data) {
-    // console.log(JSON.parse(data));
-    console.log(wss.clients);
     wss.clients.forEach(function each(client) {
       client.send(data);
     });
