@@ -18,14 +18,13 @@ const server = express()
 // Create the WebSockets server
 const wss = new WebSocket.Server({ server });
 let connectCounter = 0;
-
-
+let userId = 0;
 
 //function that generate a random color for the newly logged-in user
 function getRandomColor() {
-  const letters = '0123456789ABCDEF';
-  let color = '';
-  for   (let i = 0; i < 6; i++) {
+  const letters = "0123456789ABCDEF";
+  let color = "";
+  for (let i = 0; i < 6; i++) {
     color += letters[Math.floor(Math.random() * 16)];
   }
   return color;
@@ -35,12 +34,16 @@ function getRandomColor() {
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on("connection", ws => {
-  
-  console.log("Client connected");
+  console.log(" A client has connected");
+  userId++;
   connectCounter++;
 
-  const userColor=JSON.stringify(getRandomColor());
-  ws.send(userColor);
+  // const userColor = JSON.stringify(getRandomColor());
+  const newConnectionStates =  JSON.stringify({
+    userColor:getRandomColor(),
+    userId
+  });
+  ws.send(newConnectionStates);
 
   wss.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
@@ -63,7 +66,7 @@ wss.on("connection", ws => {
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
 
   ws.on("close", () => {
-    console.log("Client disconnected");
+    console.log("A client has disconnected");
     connectCounter--;
     console.log("Current Number of Connections:", connectCounter);
     wss.clients.forEach(function each(client) {

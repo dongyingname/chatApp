@@ -6,8 +6,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      userColor: "red",
-      currentUser: { name: "BOB!!!!!" },
+      userColor: "",
+      currentUser: { name: "" },
       numberOfClients: 0,
       messages: []
     };
@@ -70,8 +70,14 @@ class App extends Component {
       if (parsedData.connectCounter) {
         const numberOfClients = parsedData.connectCounter;
         this.setState({ numberOfClients: numberOfClients });
-      } else if (parsedData.length === 6) {
-        this.setState({ userColor: "#" + parsedData });
+      } else if (parsedData.userId && parsedData.userColor) {
+        // console.log("Ready to get newConnectionStates!!!");
+        const userId = parsedData.userId;
+        const userColor = parsedData.userColor;
+        this.setState({
+          currentUser: { name: `Annoymous User # ${userId}` },
+          userColor: userColor
+        });
       } else {
         switch (parsedData.type) {
           case "incomingNotification":
@@ -103,7 +109,6 @@ class App extends Component {
         </nav>
         <MessageList messages={this.state.messages} />
         <ChatBar
-          currentUser={this.state.currentUser.name}
           newMessage={this.submitMessage}
           changeUser={this.changeUser}
         />
