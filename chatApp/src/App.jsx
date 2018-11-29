@@ -13,7 +13,7 @@ const ChattyPage = props => {
     <div>
       <nav className="navbar">
         <a href="/" className="navbar-brand">
-          Chatty
+          Chatty App
         </a>
         <h3 className="number-clients">
           {props.numberOfClients} User(s) Online
@@ -75,9 +75,9 @@ class App extends Component {
     }
   };
 
-//changeUser: A method that adds "keydown" handler to the ChatBar component's username bar;
-//  When "Enter" is hit in the username bar the method will send the newUserChange object to the 
-//  WebSocket server, and at the same time setStatecurrentUser: { name: newUsername }.
+  //changeUser: A method that adds "keydown" handler to the ChatBar component's username bar;
+  //  When "Enter" is hit in the username bar the method will send the newUserChange object to the 
+  //  WebSocket server, and at the same time setStatecurrentUser: { name: newUsername }.
   changeUser = event => {
 
     if (event.key === "Enter") {
@@ -99,15 +99,13 @@ class App extends Component {
     }
   };
 
-//componentDidMount: Its content is executed after the first rendering is excuted.
+  //componentDidMount: Its content is executed after the first rendering is excuted.
 
-//Add "onopen" handler to WebSocket server. Once the connection between the client and the ws server
-//is open the client sends a message to notify the server that they are connected.
-//Add onmessage listener to the ws server. 
+  //Add "onopen" handler to WebSocket server. Once the connection between the client and the ws server
+  //is open the client sends a message to notify the server that they are connected.
+  //Add onmessage listener to the ws server. 
 
-//Handles the ws server response based on the content of the data.
-
-
+  //Handles the ws server response based on the content of the data.
   componentDidMount() {
 
     this.webSocket.onopen = () => {
@@ -122,7 +120,7 @@ class App extends Component {
         const numberOfClients = parsedData.connectCounter;
         this.setState({ numberOfClients: numberOfClients });
         
-        //  A new client will be sent a userId and userColor which will update its respective states.
+      //  A new client will be sent a userId and userColor which will update its respective states.
       } else if (parsedData.userId && parsedData.userColor) {
         const userId = parsedData.userId;
         const userColor = parsedData.userColor;
