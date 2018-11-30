@@ -4,8 +4,7 @@
 
 ## Description:
 
-This is a web app that allows groups of friends to vote on a preferred choice.
-This is a online chat app that allows users to communicate by messages and sending pictures
+This is an online chat app that allows users to communicate by messages and sending pictures.
 
 - No registration required!
 - User-friendly interface: Clean interface and no advertisement!
@@ -51,6 +50,11 @@ $npm start
 in a sperated terminal for each of the chatApp and chatty_server directory.
 
 - To view the ChattyApp page go to http://localhost:3000/.
+
+## Instructions
+
+- The image that is being posted can only be in png, jpeg, or gif format.
+- The image URL has to be seperated from the rest of the message content by spaces in order to be properly rendered.
 
 ## Screenshots
 
