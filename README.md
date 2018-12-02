@@ -1,71 +1,48 @@
 # Project: Chatty App
 
-## By [Ying Dong](https://github.com/dongyingname)
+## Contributor: [Ying Dong](https://github.com/dongyingname)
 
-## Description:
-
-This is an online chat app that allows users to communicate by messages and sending pictures.
-
+## Overview:
+This online chat app was created to simulate an online chat interface where users can interat with each other by creating messages and sending images.
+- Each user is assigned of a unique color; when a username(optional) is entered the username will be in that unique color. A notification alert will show if a user changes the username.
+- The number of users that are being connected is shown on the top-right corner of the page.
+- Hit "Enter" while in the message area to send a message.
+- Hit "Enter" while in the username area to change the username.
 - No registration required!
 - User-friendly interface: Clean interface and no advertisement!
 - Shows number of users and usernames(optional) in colors.
 - Compatible with URLs images in PNG, JPEG, and GIF format.
 
-## Dependencies
-
-chatApp
-- babel-core
-- babel-loader
-- babel-preset-es2015
-- babel-preset-react
-- babel-preset-stage-0
-- css-loader
-- eslint
-- eslint-plugin-react
-- node-sass
-- sass-loader
-- sockjs-client
-- style-loader
-- webpack
-- webpack-dev-server
-
-chatty_server(WebSocket Server)
-- express
-- websocket
-
 ## Getting Started
 
-- to install all the dependencies.
+The project contains 2 major directories:
+- chatApp 
+- chatty_server (WebSocket)
+
+To install all the dependencies.
 
 ```
 $npm install
 ```
 in each of the chatApp and chatty_server directory.
 
-- To run the web server run the following command in terminal:
+To run the web server run the following command in terminal:
 
 ```
 $npm start
 ```
-in a sperated terminal for each of the chatApp and chatty_server directory.
+in a sperated terminal in each of the chatApp and chatty_server directory.
 
 - To view the ChattyApp page go to http://localhost:3000/.
 
-## Instructions
-
-- The image that is being posted can only be in png, jpeg, or gif format.
-- The image URL has to be seperated from the rest of the message content by spaces in order to be properly rendered.
-
-## Screenshots
+## Final Product
 
 ![ChattyApp](./screenshots/chattyapp.png)
 
-## Author
+## Contributo Information
 
 - [Ying Dong](https://github.com/dongyingname)
 - 2-Month web design experience.
 - Currently a Lighthouse Lab student.
 
-## License
 
-MIT.
