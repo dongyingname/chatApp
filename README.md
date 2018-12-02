@@ -39,6 +39,15 @@ in a sperated terminal in each of the chatApp and chatty_server directory.
 
 ![ChattyApp](./screenshots/chattyapp.png)
 
+## Tech Stack
+
+- CSS/SCSS
+- babel
+- Node
+- React with JSX
+- Webpack
+- WebSocket
+- Express
 ## Contributo Information
 
 - [Ying Dong](https://github.com/dongyingname)
