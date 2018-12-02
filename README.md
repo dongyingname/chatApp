@@ -10,7 +10,6 @@ This online chat app was created to simulate an online chat interface where user
 - Hit "Enter" while in the username area to change the username.
 - No registration required!
 - User-friendly interface: Clean interface and no advertisement!
-- Shows number of users and usernames(optional) in colors.
 - Compatible with URLs images in PNG, JPEG, and GIF format.
 
 ## Getting Started
@@ -26,12 +25,12 @@ $npm install
 ```
 in each of the chatApp and chatty_server directory.
 
-To run the web server run the following command in terminal:
+To run the web server and the WebSocket server run the following command in terminal:
 
 ```
 $npm start
 ```
-in a sperated terminal in each of the chatApp and chatty_server directory.
+in a seperated terminal in each of the chatApp and chatty_server directory.
 
 - To view the ChattyApp page go to http://localhost:3000/.
 
@@ -42,7 +41,7 @@ in a sperated terminal in each of the chatApp and chatty_server directory.
 ## Tech Stack
 
 - CSS/SCSS
-- babel
+- Babel
 - Node
 - React with JSX
 - Webpack
