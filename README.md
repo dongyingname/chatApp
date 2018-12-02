@@ -51,6 +51,6 @@ in a seperated terminal in each of the chatApp and chatty_server directory.
 
 - [Ying Dong](https://github.com/dongyingname)
 - 2-Month web design experience.
-- Currently a Lighthouse Lab student.
+- Currently a student of [Lighthouse Labs Web Development Bootcamp](https://lighthouselabs.ca/web-bootcamp)
 
 
